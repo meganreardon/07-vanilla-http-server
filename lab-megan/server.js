@@ -36,12 +36,18 @@ const server = http.createServer(function(req, res) {
     // note: text on query on request object - bang method
     console.log('The request querystring is:', req.url.query);
     var currentRequest = req.url.query;
-    res.writeHead(200, {'Content-Type': 'text/plain' });
-    // res.write(cowsay.say({text: 'Moooooooore popcorn.'})); // original
-    // res.write(cowsay.say({`text: ${currentRequest}`})); // no
-    // res.write(cowsay.say({text: currentRequest})); // no
-    // res.write(cowsay.say({text: req.url.query})); // no
-    res.write(cowsay.say(currentRequest));
+
+    // if (currentRequest === null) { // no
+    if (req.url.query.text === undefined) {
+      res.writeHead(400, {'Content-Type': 'text/plain' });
+      res.write(cowsay.say({text: 'bad request'}));
+      //write head
+      //message
+    } else {
+      res.writeHead(200, {'Content-Type': 'text/plain' });
+      res.write(cowsay.say(currentRequest));
+    }
+
     res.end();
 
     // if the body does not equal text=message
