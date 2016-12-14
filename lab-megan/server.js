@@ -32,10 +32,10 @@ const server = http.createServer(function(req, res) {
     res.writeHead(200, {
       // 'Content-Length': Buffer.byteLength(body), // keep for ta question
       'Content-Type': 'text/plain' });
-
-    res.write('Hello from my server. This is a test.');
+    res.write('Hello from my server. This is coming from the GET method.');
     // TODO: ask ta if message should come from header body, so confuse.
-    res.end();
+    // TODO: ask ta if this should also be in req.method POST below, lab work said for all requests
+    // res.end();
   }
 
   if (req.method === 'POST') {
@@ -43,6 +43,11 @@ const server = http.createServer(function(req, res) {
       if (err) console.error(err);
       console.log('POST request body is:', req.body);
     });
+    // res.writeHead(200, {
+    //   // 'Content-Length': Buffer.byteLength(body), // keep for ta question
+    //   'Content-Type': 'text/plain' });
+    // res.write('Hello from my server. This is coming from the POST method.');
+    // res.end();
   }
 
   if (req.method === 'GET' && req.url.pathname === '/cowsay') {
