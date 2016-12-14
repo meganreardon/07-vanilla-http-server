@@ -63,6 +63,20 @@ const server = http.createServer(function(req, res) {
       }
     });
   }
+
+  // if (req.method === 'GET' && req.url.pathname === '/dragon') {
+  //   // cowsay -f tux "This is my text."
+  //   var dragonRequest = req.url.query;
+  //   if (req.url.query.text) {
+  //     res.writeHead(200, {'Content-Type': 'text/plain' });
+  //     res.write(cowsay.say('-f dragon', dragonRequest));
+  //   } else {
+  //     res.writeHead(400, {'Content-Type': 'text/plain' });
+  //     res.write(cowsay.say({text: 'bad request'}));
+  //   }
+  //   res.end();
+  // }
+
 });
 
 server.listen(PORT, () => {
