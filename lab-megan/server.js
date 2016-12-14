@@ -44,25 +44,38 @@ const server = http.createServer(function(req, res) {
       res.writeHead(200, {'Content-Type': 'text/plain' });
       res.write(cowsay.say(currentRequest));
     }
-
     res.end();
   }
 
+
+
   if(req.method === 'POST' && req.url.pathname === '/cowsay') {
-    res.write(cowsay.say({text: 'Moooooooore popcorn.'}));
+    // res.write(cowsay.say({text: 'Moooooooore popcorn.'})); // orig
     parseBody(req, function(err) {
       if (err) console.error(err);
       console.log('POST request body is:', req.body);
     });
+
+    var aCurrentRequest = req.url.query;
+
+    if (req.url.query.text === undefined) {
+      res.writeHead(400, {'Content-Type': 'text/plain' });
+      res.write(cowsay.say({text: 'bad request'}));
+    } else {
+      res.writeHead(200, {'Content-Type': 'text/plain' });
+      res.write(cowsay.say(aCurrentRequest));
+    }
+
     res.end();
   }
+
+
 
   if (req.method === 'GET' && req.url.pathname === '/dragon') {
     // if dragon f: dragon // hint from from other student
   }
 
   res.end();
-  // TODO ask ta if we want res.end for each if statement above
 });
 
 server.listen(PORT, () => {
