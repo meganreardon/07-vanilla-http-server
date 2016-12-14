@@ -21,6 +21,7 @@ const server = http.createServer(function(req, res) {
     res.writeHead(200, {'Content-Type': 'text/plain' });
     res.write('Hello from my server. This is coming from the GET method.\n\n');
     // TODO: ask ta if message should come from write header body optional message, so confuse.
+    res.end();
   }
 
   if (req.method === 'POST' && req.url.pathname !== '/cowsay') {
@@ -30,6 +31,7 @@ const server = http.createServer(function(req, res) {
     });
     res.writeHead(200, {'Content-Type': 'text/plain' });
     res.write('Hello from my server. This is coming from the POST method.\n\n');
+    res.end();
   }
 
   if (req.method === 'GET' && req.url.pathname === '/cowsay') {
@@ -54,7 +56,7 @@ const server = http.createServer(function(req, res) {
 
     res.writeHead(200, {'Content-Type': 'text/plain' });
     res.write(cowsay.say({text: 'Moooooooore popcorn.'}));
-    // res.end();
+    res.end();
   }
 
   if(req.method === 'POST' && req.url.pathname === '/cowsay') {
@@ -65,6 +67,7 @@ const server = http.createServer(function(req, res) {
     });
     // res.end(); // this was here in class code, might need to put it back
     // TODO ask ta why only get get cowsay is throwing errors
+    res.end();
   }
 
   res.end();
