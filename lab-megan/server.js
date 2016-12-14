@@ -17,7 +17,7 @@ const server = http.createServer(function(req, res) {
   // console.log('The req querystring is:', req.url.query);
   // console.log('Request methods are:', req.methods);
 
-  if (req.method === 'GET' && req.url.pathname !== '/cowsay') {
+  if (req.method === 'GET' && req.url.pathname !== '/cowsay' && req.url.pathname !== '/dragon') {
     // console.log('\n\n ::: GET request is:', req.url.pathname);
     res.writeHead(200, {'Content-Type': 'text/plain' });
     res.write('Hello from my server. This is coming from the GET method.\n\n');
@@ -64,18 +64,20 @@ const server = http.createServer(function(req, res) {
     });
   }
 
-  // if (req.method === 'GET' && req.url.pathname === '/dragon') {
-  //   // cowsay -f tux "This is my text."
-  //   var dragonRequest = req.url.query;
-  //   if (req.url.query.text) {
-  //     res.writeHead(200, {'Content-Type': 'text/plain' });
-  //     res.write(cowsay.say('-f dragon', dragonRequest));
-  //   } else {
-  //     res.writeHead(400, {'Content-Type': 'text/plain' });
-  //     res.write(cowsay.say({text: 'bad request'}));
-  //   }
-  //   res.end();
-  // }
+  if (req.method === 'GET' && req.url.pathname === '/dragon') {
+    // cowsay -f tux "This is my text."
+    var dragonRequest = req.url.query;
+    if (req.url.query.text) {
+      console.log('\n\n ::: HERE BE DRAGONS ::: \n\n');
+      res.writeHead(200, {'Content-Type': 'text/plain' });
+      // res.write(cowsay.say({f:dragon}, {'text: dragonRequest'}));
+      res.write(cowsay.say({f:dragon}, {text:dragonRequest}));
+    } else {
+      res.writeHead(400, {'Content-Type': 'text/plain' });
+      res.write(cowsay.say({text: 'bad request'}));
+    }
+    res.end();
+  }
 
 });
 
