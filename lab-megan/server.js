@@ -36,7 +36,6 @@ const server = http.createServer(function(req, res) {
     // note: text on query on request object - bang method
     console.log('The request querystring is:', req.url.query);
     var currentRequest = req.url.query;
-
     if (req.url.query.text === undefined) {
       res.writeHead(400, {'Content-Type': 'text/plain' });
       res.write(cowsay.say({text: 'bad request'}));
@@ -51,20 +50,46 @@ const server = http.createServer(function(req, res) {
 
   if(req.method === 'POST' && req.url.pathname === '/cowsay') {
     // res.write(cowsay.say({text: 'Moooooooore popcorn.'})); // orig
-    parseBody(req, function(err) {
+
+    var testBody;
+
+    parseBody(req, function(err, data) { // use the data here will be body
       if (err) console.error(err);
-      console.log('POST request body is:', req.body);
+      // console.log('POST request body is:', req.body);
+      testBody = data;
+      console.log('testBody inside block is: ', testBody);
+      // return(null, testBody); dont need this
     });
 
-    var aCurrentRequest = req.url.query;
+    // need to get callback from parseBody to use as our text TODO
 
-    if (req.url.query.text === undefined) {
-      res.writeHead(400, {'Content-Type': 'text/plain' });
-      res.write(cowsay.say({text: 'bad request'}));
-    } else {
+    console.log('testBody test outside block is: ', testBody);
+
+
+    // old
+    // var aCurrentRequest = req.url.query;
+    // if (req.url.query.text === undefined) { //req.body
+    //   res.writeHead(400, {'Content-Type': 'text/plain' });
+    //   res.write(cowsay.say({text: 'bad request'}));
+    // } else {
+    //   res.writeHead(200, {'Content-Type': 'text/plain' });
+    //   res.write(cowsay.say(aCurrentRequest));
+    // }
+
+    // TODO reutrn to this with variable, rename it
+    var aCurrentRequest = req.body.text; // NOPE undefined as of this time
+    console.log('aCurrentRequest var is: ', aCurrentRequest); //nope
+
+    if (aCurrentRequest) {
+      console.log('You have reached the YEP section. Request Body Text is: ', aCurrentRequest);
       res.writeHead(200, {'Content-Type': 'text/plain' });
       res.write(cowsay.say(aCurrentRequest));
+    } else {
+      console.log('You have reached the NOPE section.');
+      res.writeHead(400, {'Content-Type': 'text/plain' });
+      res.write(cowsay.say({text: 'bad request'}));
     }
+
 
     res.end();
   }
