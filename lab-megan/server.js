@@ -27,7 +27,7 @@ const server = http.createServer(function(req, res) {
   // console.log('Request methods are:', req.methods);
 
   // this was commented out in class code
-  if (req.method === 'GET') {
+  if (req.method === 'GET' && req.url.pathname !== '/cowsay') {
     // var body = 'Hello from my server.'; // keep for ta question
     res.writeHead(200, {
       // 'Content-Length': Buffer.byteLength(body), // keep for ta question
@@ -36,18 +36,21 @@ const server = http.createServer(function(req, res) {
     // TODO: ask ta if message should come from header body, so confuse.
     // TODO: ask ta if this should also be in req.method POST below, lab work said for all requests
     // TODO: ask ta if this message should not appear for cowsay requests
-    // res.end();
+    // res.end();res.setHeader('Content-Type', 'text/plain');
+    // res.setHeader('Content-Type', 'text/plain');
+    // res.response.statusCode = 404;
+    // res.write('Hello from my new test code.');
   }
 
-  if (req.method === 'POST') {
+  if (req.method === 'POST' && req.url.pathname !== '/cowsay') {
     parseBody(req, function(err) {
       if (err) console.error(err);
       console.log('POST request body is:', req.body);
     });
-    res.writeHead(200, {
-      // 'Content-Length': Buffer.byteLength(body), // keep for ta question
-      'Content-Type': 'text/plain' });
-    res.write('Hello from my server. This is coming from the POST method.\n\n');
+    // res.writeHead(200, {
+    //   // 'Content-Length': Buffer.byteLength(body), // keep for ta question
+    //   'Content-Type': 'text/plain' });
+    // res.write('Hello from my server. This is coming from the POST method.\n\n');
     // res.writeHead(200, {
     //   // 'Content-Length': Buffer.byteLength(body), // keep for ta question
     //   'Content-Type': 'text/plain' });
@@ -55,10 +58,46 @@ const server = http.createServer(function(req, res) {
     // res.end();
   }
 
+
+
+
+
   if (req.method === 'GET' && req.url.pathname === '/cowsay') {
+    // if the body does not equal text=message
+      // return status code 400
+      // body including value from query
+      // and a body including the value returned from cowsay.say({ text: 'bad request' })
+    // else return
+      // status code of 200
+      // a response body that includes the value returned from cowsay.say({ text: <querystring text> })
+
+    //NEW TRY
+    //grab the body
+    // if it has == change to =
+
+    // if the query is text=message respond with
+      // status code of 200
+      // response body that includes the value returned from cowsay.say({ text: <querystring text> })
+    // if the text is not there respond with
+      // status code 400
+      // a body including the value returned from cowsay.say({ text: 'bad request' })
+
+    res.writeHead(200, {
+      // 'Content-Length': Buffer.byteLength(body), // keep for ta question
+      'Content-Type': 'text/plain' });
+      // TODO: can turn this into one string
+
+
     res.write(cowsay.say({text: 'Moooooooore popcorn.'}));
+    // res.setHeader('Content-Type', 'text/plain');
+    // res.response.statusCode = 404;
+
     // res.end();
   }
+
+
+
+
 
   if(req.method === 'POST' && req.url.pathname === '/cowsay') {
     res.write(cowsay.say({text: 'Moooooooore popcorn.'}));
