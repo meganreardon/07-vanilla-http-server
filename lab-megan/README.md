@@ -17,10 +17,12 @@ $ node server.js
 The second terminal will take requests:
 
 ### To Make Requests
-- `http localhost:8000 text==<query>` Will return a message from the server.
-- `http POST localhost:8000 text=<post>` Will return a message from the server.
-- `http localhost:8000/cowsay text==<query>` Will return a message from the cow.
-- `http POST localhost:8000/cowsay text=<post>` Will return a message from the cow.
+- `http localhost:8000 text==<"query text here">` Will return a message from the server.
+- `http POST localhost:8000 text=<"your message text">` Will return a message from the server.
+- `http localhost:8000/cowsay text==<"query text here">` Will return a message from the cow.
+- `http POST localhost:8000/cowsay text=<"your message text">` Will return a message from the cow.
+
+Note: if the server is running on a different port than 8000 please use that port number in the commands above instead of the port number shown.
 
 ### To Use This API In Your Own Project
 ```js
