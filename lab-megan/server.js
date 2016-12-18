@@ -42,15 +42,30 @@ const server = http.createServer(function(req, res) {
   //    handle cowsay requests
   // -------------------------
 
+  // ORIG
+  // if (req.method === 'GET' && req.url.pathname === '/cowsay') {
+  //   // console.log('\n\n ::: The GET request querystring for COWSAY is:', req.url.query);
+  //   var currentRequest = req.url.query;
+  //   if (!req.url.query.text) {
+  //     res.writeHead(400, {'Content-Type': 'text/plain' });
+  //     res.write(cowsay.say({text: 'bad request'}));
+  //   } else {
+  //     res.write(cowsay.say(currentRequest));
+  //     res.writeHead(200, {'Content-Type': 'text/plain' });
+  //   }
+  //   res.end();
+  // }
+
+
   if (req.method === 'GET' && req.url.pathname === '/cowsay') {
     // console.log('\n\n ::: The GET request querystring for COWSAY is:', req.url.query);
     var currentRequest = req.url.query;
-    if (!req.url.query.text) {
+    if (req.url.query.text === undefined) {
       res.writeHead(400, {'Content-Type': 'text/plain' });
       res.write(cowsay.say({text: 'bad request'}));
     } else {
-      res.write(cowsay.say(currentRequest));
       res.writeHead(200, {'Content-Type': 'text/plain' });
+      res.write(cowsay.say(currentRequest));
     }
     res.end();
   }
