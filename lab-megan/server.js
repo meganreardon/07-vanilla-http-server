@@ -22,7 +22,6 @@ const server = http.createServer(function(req, res) {
 // -----------------------------
 
   if (req.method === 'GET' && req.url.pathname !== '/cowsay' && req.url.pathname !== '/dragon') {
-    // console.log('\n\n ::: GET request is:', req.url.pathname);
     res.writeHead(200, {'Content-Type': 'text/plain' });
     res.write('Hello from my server. This is coming from the GET method.\n\n');
     res.end();
@@ -31,7 +30,6 @@ const server = http.createServer(function(req, res) {
   if (req.method === 'POST' && req.url.pathname !== '/cowsay') {
     parseBody(req, function(err) {
       if (err) console.error(err);
-      // console.log('\n\n ::: POST request body is:', req.body);
     });
     res.writeHead(200, {'Content-Type': 'text/plain' });
     res.write('Hello from my server. This is coming from the POST method.\n\n');
@@ -42,23 +40,7 @@ const server = http.createServer(function(req, res) {
   //    handle cowsay requests
   // -------------------------
 
-  // ORIG
-  // if (req.method === 'GET' && req.url.pathname === '/cowsay') {
-  //   // console.log('\n\n ::: The GET request querystring for COWSAY is:', req.url.query);
-  //   var currentRequest = req.url.query;
-  //   if (!req.url.query.text) {
-  //     res.writeHead(400, {'Content-Type': 'text/plain' });
-  //     res.write(cowsay.say({text: 'bad request'}));
-  //   } else {
-  //     res.write(cowsay.say(currentRequest));
-  //     res.writeHead(200, {'Content-Type': 'text/plain' });
-  //   }
-  //   res.end();
-  // }
-
-
   if (req.method === 'GET' && req.url.pathname === '/cowsay') {
-    // console.log('\n\n ::: The GET request querystring for COWSAY is:', req.url.query);
     var currentRequest = req.url.query;
     if (req.url.query.text === undefined) {
       res.writeHead(400, {'Content-Type': 'text/plain' });
@@ -70,24 +52,6 @@ const server = http.createServer(function(req, res) {
     res.end();
   }
 
-  // orig
-  // if(req.method === 'POST' && req.url.pathname === '/cowsay') {
-  //   parseBody(req, function(err, data) {
-  //     if (err) console.error(err);
-  //     // console.log('\n\n ::: Cowsay POST\n ::: The DATA inside block is: ', data, '\n\n');
-  //     if (data) {
-  //       // console.log(' ::: You have reached the YEP section.\n ::: Request Body Text is: ', data, '\n\n');
-  //       res.writeHead(200, {'Content-Type': 'text/plain' });
-  //       res.write(cowsay.say(data));
-  //       res.end();
-  //     } else {
-  //       // console.log('You have reached the NOPE section.\n\n');
-  //       res.writeHead(400, {'Content-Type': 'text/plain' });
-  //       res.write(cowsay.say({text: 'bad request'}));
-  //     }
-  //   });
-  //
-  // //try #2
   if(req.method === 'POST' && req.url.pathname === '/cowsay') {
     parseBody(req, function(err, data) {
       if (err) {
@@ -95,33 +59,13 @@ const server = http.createServer(function(req, res) {
         res.writeHead(400, {'Content-Type': 'text/plain'});
         res.write(cowsay.say({text: 'bad request'}));
         console.log('COWSAY POST in err top area');
-        // console.log('\n\n ::: Cowsay POST\n ::: The DATA inside block is: ', data, '\n\n');
       } else {
-        // console.log(' ::: You have reached the YEP section.\n ::: Request Body Text is: ', data, '\n\n');
         res.writeHead(200, {'Content-Type': 'text/plain' });
         res.write(cowsay.say(data));
       }
       res.end();
-      // } else {
-      //   // console.log('You have reached the NOPE section.\n\n');
-      // }
     });
   }
-
-
-    // if (req.method === 'POST' && req.url.pathname === '/cowsay') {
-    //   parseBody(req, function(err) {
-    //     if (err) {
-    //       console.error(err);
-    //       res.writeHead(400, {'Content-Type': 'text/plain'});
-    //       res.write(cowsay.say({text: 'bad request'}));
-    //     // console.log('\n\n ::: POST request body is:', req.body);
-    //   } else {
-    //     res.writeHead(200, {'Content-Type': 'text/plain' });
-    //     res.write('Hello from my server. This is coming from the POST method.\n\n');
-    //     res.end();
-    //   }
-    // }
 
   // --------------------------------
   //    attempt at getting the dragon
