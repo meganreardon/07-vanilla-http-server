@@ -21,13 +21,13 @@ const server = http.createServer(function(req, res) {
 //    handle non-cowsay requests
 // -----------------------------
 
-  if (req.method === 'GET' && req.url.pathname !== '/cowsay' && req.url.pathname !== '/dragon') {
+  if (req.method === 'GET' && req.url.pathname !== '/cowsay' && req.url.pathname !== '/surprise') {
     res.writeHead(200, {'Content-Type': 'text/plain' });
     res.write('Hello from my server. This is coming from the GET method.\n\n');
     res.end();
   }
 
-  if (req.method === 'POST' && req.url.pathname !== '/cowsay') {
+  if (req.method === 'POST' && req.url.pathname !== '/cowsay' && req.url.pathname !== '/surprise') {
     parseBody(req, function(err) {
       if (err) console.error(err);
     });
@@ -58,7 +58,6 @@ const server = http.createServer(function(req, res) {
         console.error(err);
         res.writeHead(400, {'Content-Type': 'text/plain'});
         res.write(cowsay.say({text: 'bad request'}));
-        console.log('COWSAY POST in err top area');
       } else {
         res.writeHead(200, {'Content-Type': 'text/plain' });
         res.write(cowsay.say(data));
@@ -67,24 +66,38 @@ const server = http.createServer(function(req, res) {
     });
   }
 
-  // --------------------------------
-  //    attempt at getting the dragon
-  // --------------------------------
+  // -----------------------
+  //    getting the surprise
+  // -----------------------
 
-  // if (req.method === 'GET' && req.url.pathname === '/dragon') {
-  //   // cowsay -f tux "This is my text."
-  //   var dragonRequest = req.url.query;
-  //   if (req.url.query.text) {
-  //     console.log('\n\n ::: HERE BE DRAGONS ::: \n\n');
-  //     res.writeHead(200, {'Content-Type': 'text/plain' });
-  //     // res.write(cowsay.say({f:dragon}, {'text: dragonRequest'}));
-  //     res.write(cowsay.say({f:dragon}, {text:dragonRequest}));
-  //   } else {
-  //     res.writeHead(400, {'Content-Type': 'text/plain' });
-  //     res.write(cowsay.say({text: 'bad request'}));
-  //   }
-  //   res.end();
-  // }
+  // these are currently not working
+
+  if (req.method === 'GET' && req.url.pathname === '/surprise') {
+    var curRequest = req.url.query.text;
+    if (req.url.query.text === undefined) {
+      res.writeHead(400, {'Content-Type': 'text/plain' });
+      res.write(cowsay.say({text: 'bad request', f: 'surprise'}));
+    } else {
+      res.writeHead(200, {'Content-Type': 'text/plain' });
+      res.write(cowsay.say({text: curRequest, f: 'surprise'}));
+    }
+    res.end();
+  }
+
+  if(req.method === 'POST' && req.url.pathname === '/surprise') {
+    parseBody(req, function(err, data) {
+      console.log('::: DATA IS: ',data);
+      if (err) {
+        console.error(err);
+        res.writeHead(400, {'Content-Type': 'text/plain'});
+        res.write(cowsay.say({text: 'BAD request', f: 'surprise'}));
+      } else {
+        res.writeHead(200, {'Content-Type': 'text/plain' });
+        res.write(cowsay.say({text:data, f:'surprise'}));
+      }
+      res.end();
+    });
+  }
 
 });
 

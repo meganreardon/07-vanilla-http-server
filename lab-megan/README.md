@@ -21,6 +21,8 @@ The second terminal will take requests:
 - `http POST localhost:8000 text=<"your message text">` Will return a message from the server.
 - `http localhost:8000/cowsay text==<"query text here">` Will return a message from the cow.
 - `http POST localhost:8000/cowsay text=<"your message text">` Will return a message from the cow.
+- `http localhost:8000/surprise text==<"query text here">` Will return a message from a surprise guest.
+- `http POST localhost:8000/surprise text=<"your message text">` Will return a message from a surprise guest.
 
 Note: if the server is running on a different port than 8000 please use that port number in the commands above instead of the port number shown.
 
